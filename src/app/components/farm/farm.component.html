@@ -1,0 +1,7 @@
+<h2>Fazenda {{ farm.name }}</h2>
+
+<h3>Talhões</h3>
+
+<div>
+  <p **ngFor="let plot of farm.plots">{{ plot | json }}</p>
+</div>

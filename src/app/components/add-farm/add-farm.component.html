@@ -1,0 +1,18 @@
+<div>
+  <h2 class="mat-title">Adicionar Fazenda</h2>
+  <form [formGroup]="addFarmForm" (ngSubmit)="add()">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input type="text" formControlName="name" matInput>
+      <mat-error *ngIf="name?.errors?.['required']">Um nome é obrigatório.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Quantidade de Talhões</mat-label>
+      <input type="number" min="0" formControlName="plotQuantity" matInput>
+      <mat-error *ngIf="plotQuantity?.errors?.['min']">Números negativos não são permitidos.</mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">Adicionar</button>
+  </form>
+</div>
