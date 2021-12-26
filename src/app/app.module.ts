@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FarmComponent } from './components/farm/farm.component';
 import { AddFarmComponent } from './components/add-farm/add-farm.component';
+import { SelectedFarmComponent } from './components/selected-farm/selected-farm.component';
+import { FarmsComponent } from './components/farms/farms.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,14 +18,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
-import { SelectedFarmComponent } from './components/selected-farm/selected-farm.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
     AppComponent,
     FarmComponent,
     AddFarmComponent,
-    SelectedFarmComponent
+    SelectedFarmComponent,
+    FarmsComponent
   ],
   imports: [
     CommonModule,

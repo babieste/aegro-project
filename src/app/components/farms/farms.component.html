@@ -1,0 +1,24 @@
+<div class="d-flex-column">
+  <h2 class="mat-title">Minhas Fazendas</h2>
+
+  <div *ngFor="let farm of farms$ | async" class="mb-3">
+    <app-farm [farm]="farm"></app-farm>
+  </div>
+
+  <div *ngIf="(farms$ | async)?.length === 0">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon aria-hidden="false" aria-label="Atention Icon">info</mat-icon>
+        </div>
+        <mat-card-title>Sem Fazendas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="mat-body">
+          Você ainda não cadastrou nenhuma Fazenda!
+          Adicione uma nova Fazenda através do menu ao lado esquerdo.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

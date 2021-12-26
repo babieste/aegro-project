@@ -16,7 +16,7 @@ export class FarmComponent implements OnInit {
   ngOnInit(): void { }
 
   public selectFarm() {
-    this.farmService.selectFarmId = this.farm.id
+    this.farmService.selectFarmId = this.farm.id;
   }
 
 }

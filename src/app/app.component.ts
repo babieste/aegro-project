@@ -10,9 +10,6 @@ import { FarmService } from './services/farm/farm.service';
 })
 export class AppComponent {
 
-  public farms$: Observable<Farm[]>;
+  constructor() {}
 
-  constructor(private farmService: FarmService) {
-    this.farms$ = this.farmService.getFarms();
-  }
 }
