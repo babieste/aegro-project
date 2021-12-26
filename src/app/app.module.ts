@@ -42,7 +42,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatSnackBarModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
