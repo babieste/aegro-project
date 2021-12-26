@@ -15,12 +15,15 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { SelectedFarmComponent } from './components/selected-farm/selected-farm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FarmComponent,
-    AddFarmComponent
+    AddFarmComponent,
+    SelectedFarmComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCardModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

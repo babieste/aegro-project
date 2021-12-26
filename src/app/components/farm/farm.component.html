@@ -1,7 +1,12 @@
-<h2>Fazenda {{ farm.name }}</h2>
+<mat-card>
+  <mat-card-subtitle>Fazenda {{ farm.id }}</mat-card-subtitle>
+  <mat-card-title>{{ farm.name }}</mat-card-title>
 
-<h3>Talhões</h3>
+  <mat-card-content>
+    <p>Quantidade de talhões: {{ farm.plotQuantity }}</p>
+  </mat-card-content>
 
-<div>
-  <p **ngFor="let plot of farm.plots">{{ plot | json }}</p>
-</div>
+  <mat-card-actions align="end">
+    <button mat-button (click)="selectFarm()">Ver mais detalhes</button>
+  </mat-card-actions>
+</mat-card>

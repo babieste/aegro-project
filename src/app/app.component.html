@@ -7,12 +7,14 @@
     <app-add-farm></app-add-farm>
   </mat-grid-tile>
   <mat-grid-tile>
-    <div style="display: flex; flex-direction: column;">
+    <div class="d-flex-column">
       <h2 class="mat-title">Minhas Fazendas</h2>
-      <div>
-        <p *ngFor="let farm of farms$ | async">{{ farm | json }}</p>
+      <div *ngFor="let farm of farms$ | async" class="mb-3">
+        <app-farm [farm]="farm"></app-farm>
       </div>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
+  <mat-grid-tile>
+    <app-selected-farm></app-selected-farm>
+  </mat-grid-tile>
 </mat-grid-list>

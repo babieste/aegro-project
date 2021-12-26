@@ -7,25 +7,46 @@ import { Farm } from 'src/app/models/farm.model';
   providedIn: 'root'
 })
 export class FarmService {
-  private farms = new BehaviorSubject<Farm[]>([]);
+
+  private _farms = new BehaviorSubject<Farm[]>([]);
+
+  private _selectedFarmId = new BehaviorSubject<string | null>(null);
 
   constructor() {
     const db = JSON.parse(localStorage.getItem('aegro-data') as string) as DataBaseSchema;
     if (db) {
-      this._farms = db.farms;
+      this.farms = db.farms;
     }
   }
 
-  private get _farms() {
-    return this.farms.getValue();
+  private get farms() {
+    return this._farms.getValue();
   }
 
-  private set _farms(value: Farm[]) {
-    this.farms.next(value);
+  private set farms(value: Farm[]) {
+    this._farms.next(value);
+  }
+
+  public get selectFarmId(): string | null {
+    return this._selectedFarmId.getValue();
+  }
+
+  public set selectFarmId(id: string | null) {
+    this._selectedFarmId.next(id);
   }
 
   public getFarms(): Observable<Farm[]> {
-    return this.farms.asObservable();
+    return this._farms.asObservable();
+  }
+
+  public selectFarm(): Observable<Farm | null> {
+    return new Observable(subscriber => {
+      let selectedFarmId$ = this._selectedFarmId.asObservable();
+      selectedFarmId$.subscribe((id: string | null) => {
+        const f = this.getById(id as string);
+        subscriber.next(f);
+      });
+    });
   }
 
   public addFarm(name: string, plotQuantity: number): Observable<boolean> {
@@ -42,22 +63,16 @@ export class FarmService {
         const f = new Farm(name, plotQuantity);
 
         // Verifica se já existe no BD
-        this
-          .getById(f.id)
-          .subscribe(
-            (res: Farm | null) => {
-              if (res) {
-                subscriber.next(false);
-                subscriber.complete();
-              } else {
-                db.farms.push(f);
-                localStorage.setItem('aegro-data', JSON.stringify(db));
-                this._farms = db.farms;
-                subscriber.next(true);
-                subscriber.complete();
-              }
-            }
-          );
+        if (this.getById(f.id)) {
+          subscriber.next(false);
+          subscriber.complete();
+        } else {
+            db.farms.push(f);
+            this.farms = db.farms;
+            localStorage.setItem('aegro-data', JSON.stringify(db));
+            subscriber.next(true);
+            subscriber.complete();
+        }
       } catch (error) {
         subscriber.next(false);
         subscriber.complete();
@@ -65,22 +80,12 @@ export class FarmService {
     });
   }
 
-  public getById(id: string): Observable<Farm | null> {
-    return new Observable(subscriber => {
-      const db = JSON.parse(localStorage.getItem('agro-data') as string) as DataBaseSchema;
-      if (db) {
-        let farm: Farm | undefined = db.farms.find(farm => farm.id === id);
-        if (farm) {
-          subscriber.next(farm);
-        } else {
-          subscriber.next(null);
-        }
-        subscriber.complete();
-      } else {
-        subscriber.next(null);
-        subscriber.complete();
-      }
-    });
+  public getById(id: string): Farm | null {
+    const f = this.farms.find(farm => farm.id === id);
+    if (f) {
+      return f;
+    }
+    return null;
   }
 
 }
