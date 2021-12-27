@@ -30,7 +30,7 @@ export class AddFarmComponent implements OnInit {
     //TODO add loading
     if(this.addFarmForm.valid) {
       this.farmService
-        .addFarm(this.name?.value, this.plotQuantity?.value)
+        .saveNewFarm(this.name?.value, this.plotQuantity?.value)
         .subscribe(
           (added: boolean) => {
             if (added) {

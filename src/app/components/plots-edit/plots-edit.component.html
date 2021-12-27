@@ -28,6 +28,15 @@
     </form>
   </div>
 
+  <div *ngFor="let registry of plot.production; index as i;" class="registry-card">
+    <mat-card>
+      <span>Registro #{{ i+1 }}: {{ registry }}</span>
+      <button mat-mini-fab aria-label="Excluir Registro" color="warn" (click)="removePlotRegistry(registry)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+
   <p>{{ plot | json}}</p>
 
   <button mat-flat-button (click)="savePlotInfo()">Salvar</button>

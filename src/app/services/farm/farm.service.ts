@@ -2,20 +2,27 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataBaseSchema } from 'src/app/models/db.model';
 import { Farm } from 'src/app/models/farm.model';
+import { Plot } from 'src/app/models/plot.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FarmService {
+  private db: DataBaseSchema;
 
   private _farms = new BehaviorSubject<Farm[]>([]);
 
   private _selectedFarmId = new BehaviorSubject<string | null>(null);
 
   constructor() {
-    const db = JSON.parse(localStorage.getItem('aegro-data') as string) as DataBaseSchema;
-    if (db) {
-      this.farms = db.farms;
+    this.db = JSON.parse(localStorage.getItem('aegro-data') as string) as DataBaseSchema;
+
+    if (this.db) {
+      this.farms = this.db.farms;
+    } else {
+      this.db = {
+        farms: []
+      };
     }
   }
 
@@ -49,16 +56,8 @@ export class FarmService {
     });
   }
 
-  public addFarm(name: string, plotQuantity: number): Observable<boolean> {
+  public saveNewFarm(name: string, plotQuantity: number): Observable<boolean> {
     return new Observable<boolean>(subscriber => {
-      let db = JSON.parse(localStorage.getItem('aegro-data') as string) as DataBaseSchema;
-
-      if(!db) {
-        db = {
-          farms: []
-        };
-      }
-
       try {
         const f = new Farm(name, plotQuantity);
 
@@ -67,9 +66,9 @@ export class FarmService {
           subscriber.next(false);
           subscriber.complete();
         } else {
-            db.farms.push(f);
-            this.farms = db.farms;
-            localStorage.setItem('aegro-data', JSON.stringify(db));
+            this.db.farms.push(f);
+            this.farms = this.db.farms;
+            this.saveDb()
             subscriber.next(true);
             subscriber.complete();
         }
@@ -80,12 +79,43 @@ export class FarmService {
     });
   }
 
+  public saveFarm(farm: Farm): Observable<boolean> {
+    return new Observable(subscriber => {
+      const index = this.db.farms.findIndex(f => f.id === farm.id);
+      if (index > -1) {
+        try {
+          this.db.farms[index] = farm;
+          this.saveDb();
+          subscriber.next(true);
+          subscriber.complete();
+        } catch (error) {
+          subscriber.next(false);
+          subscriber.complete();
+        }
+      }
+    });
+  }
+
   public getById(id: string): Farm | null {
     const f = this.farms.find(farm => farm.id === id);
     if (f) {
       return f;
     }
     return null;
+  }
+
+  /**
+   * Saves the current DB instance to LocalStorage.
+   *
+   * @throws This method throws an error. As per TypeScript:
+   *
+   * ```Throws a "QuotaExceededError" DOMException exception if the
+   * new value couldn't be set. (Setting could fail if, e.g.,
+   * the user has disabled storage for the site, or if the quota has
+   * been exceeded.)```.
+   */
+  private saveDb(): void {
+    localStorage.setItem('aegro-data', JSON.stringify(this.db));
   }
 
 }

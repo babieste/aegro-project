@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Farm } from 'src/app/models/farm.model';
 import { Plot } from 'src/app/models/plot.model';
+import { FarmService } from 'src/app/services/farm/farm.service';
 
 @Component({
   selector: 'app-plots-edit',
@@ -17,7 +18,7 @@ export class PlotsEditComponent implements OnInit, OnDestroy {
   });
 
   public productionRegistryForm = new FormGroup({
-    registry: new FormControl('', [Validators.required])
+    registry: new FormControl(0, [Validators.required, Validators.min(0)])
   });
 
   public plot: Plot;
@@ -34,7 +35,8 @@ export class PlotsEditComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<PlotsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { farm: Farm }
+    @Inject(MAT_DIALOG_DATA) public data: { farm: Farm },
+    private farmService: FarmService
   ) {
     this.plot = new Plot(this.data.farm.plotQuantity);
     this.maximumRegistriesAllowed = this.data.farm.plotQuantity;
@@ -65,13 +67,26 @@ export class PlotsEditComponent implements OnInit, OnDestroy {
       this.maximumRegistriesAllowed -= 1;
     }
 
-    this.productionRegistryForm.reset('');
+    this.productionRegistryForm.reset({ registry: 0 });
+  }
+
+  public removePlotRegistry(registryToDelete: number) {
+    const index = this.plot.production.findIndex(registry => registry === registryToDelete);
+    if (index > -1) {
+      this.plot.production.splice(index, 1);
+
+      // Aumentamos a quantidade de registros permitida
+      // caso um registro seja excluído.
+      this.maximumRegistriesAllowed += 1;
+    }
   }
 
   public savePlotInfo() {
     if (this.plot.area) {
       this.data.farm.plots.push(this.plot);
-      this.dialogRef.close(this.data.farm);
+      this.farmService
+        .saveFarm(this.data.farm)
+        .subscribe((saved: boolean) => saved ? this.dialogRef.close(this.data.farm) : this.dialogRef.close(null));
     } else {
       //TODO indicar que há informações faltando
     }
