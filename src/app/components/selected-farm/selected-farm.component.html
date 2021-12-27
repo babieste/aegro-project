@@ -4,19 +4,28 @@
     <h4 class="mat-small">Fazenda {{ selectedFarm.id }}</h4>
   </div>
 
-  <h3 class="mat-h3">Talhões</h3>
-  <button mat-mini-fab aria-label="Adicionar Talhão">
-    <mat-icon>add</mat-icon>
-  </button>
-  <div>
-    <p *ngFor="let plot of selectedFarm.plots">
-      {{ plot | json }}
-    </p>
-  </div>
-  <div *ngIf="selectedFarm.plots.length === 0">
-    <p class="mat-body">
-      Você não adicionou informações sobre os Talhões da Fazenda!
-      Clique no ícone "+" para atualizar.
-    </p>
+  <p class="mat-body">
+    Quantidade de Talhões: {{ selectedFarm.plotQuantity }}
+  </p>
+
+  <div class="plot-content">
+    <div class="plot-title-info">
+      <h3 class="mat-h3">Talhões</h3>
+      <button mat-mini-fab aria-label="Adicionar Talhão" (click)="openPlotEditionDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <p *ngFor="let plot of selectedFarm.plots">
+        {{ plot | json }}
+      </p>
+    </div>
+    <div *ngIf="selectedFarm.plots.length === 0">
+      <p class="mat-body">
+        Você não adicionou informações sobre os Talhões da Fazenda!
+        Clique no ícone "+" para atualizar.
+      </p>
+    </div>
   </div>
 </div>

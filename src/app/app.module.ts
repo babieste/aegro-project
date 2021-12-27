@@ -19,6 +19,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PlotsEditComponent } from './components/plots-edit/plots-edit.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { MatIconModule } from '@angular/material/icon';
     FarmComponent,
     AddFarmComponent,
     SelectedFarmComponent,
-    FarmsComponent
+    FarmsComponent,
+    PlotsEditComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatSnackBarModule,
     MatGridListModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
