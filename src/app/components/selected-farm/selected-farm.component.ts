@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Farm } from 'src/app/models/farm.model';
 import { FarmService } from 'src/app/services/farm/farm.service';
@@ -37,11 +37,11 @@ export class SelectedFarmComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(PlotsEditComponent, {
       data: {
         farm: this.selectedFarm
-      }
+      },
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe((result: { farm: Farm } | null) => {
-      console.log('Dialog Result:', result);
       if (result) {
         this.farmService.selectFarmId = this.selectedFarm?.id as string;
       }

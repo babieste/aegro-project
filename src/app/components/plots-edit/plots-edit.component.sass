@@ -1,7 +1,35 @@
-.registry-card
+.registry-content
+  max-height: 200px
+  overflow: auto
+
+  .registry-card
     margin-bottom: 1rem
 
     & > mat-card
         display: flex
         justify-content: space-between
         align-items: center
+
+.full-width
+  width: 100%
+
+.mt-1
+  margin-top: 1rem
+
+.flex-column
+  display: flex
+  flex-direction: column
+
+  button
+    align-self: flex-end
+
+.flex-end
+  display: flex
+  justify-content: flex-end
+
+  button:first-of-type
+    margin-right: 1rem
+
+.quantity-hint
+  padding-bottom: 0.5rem
+  font-size: 0.8rem

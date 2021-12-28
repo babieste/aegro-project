@@ -2,42 +2,50 @@
 
 <div mat-dialog-content>
   <form [formGroup]="addPlotForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Área do Talhão</mat-label>
-      <input type="number" min="0" formControlName="plotArea" matInput>
-      <mat-error *ngIf="plotArea?.errors?.['min']">Números negativos não são permitidos.</mat-error>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Área do Talhão (ha)</mat-label>
+      <input type="number" min="1" formControlName="plotArea" matInput>
+      <mat-error *ngIf="plotArea?.value === 0">A área não pode ser nula.</mat-error>
+      <mat-error *ngIf="plotArea?.value < 0">A área não pode ser negativa.</mat-error>
+      <mat-error *ngIf="plotArea?.errors?.['required']">Campo obrigatório.</mat-error>
     </mat-form-field>
   </form>
 
-  <div>
-    <form [formGroup]="productionRegistryForm">
-      <mat-form-field appearance="outline">
-        <mat-label>Registro de Produtividade</mat-label>
+  <mat-card>
+    <form [formGroup]="productionRegistryForm" class="flex-column">
+      <mat-hint class="quantity-hint">Quantidade de Registros disponíveis: {{ maximumRegistriesAllowed }}</mat-hint>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Registro de Produção</mat-label>
         <input type="number" min="0" formControlName="registry" matInput>
-        <mat-error *ngIf="plotArea?.errors?.['min']">Números negativos não são permitidos.</mat-error>
+        <mat-hint>Em toneladas (t)</mat-hint>
+        <mat-error *ngIf="registry?.errors?.['min']">Números negativos não são permitidos.</mat-error>
       </mat-form-field>
 
       <button
-        color="accent"
         mat-flat-button
+        color="accent"
         (click)="addPlotRegistry()"
         [disabled]="maximumRegistriesAllowed === 0"
       >
-        Adicionar
+        Incluir Registro
       </button>
     </form>
+
+    <div class="registry-content" [ngClass]="{'mt-1': plot.production.length > 0}">
+      <div *ngFor="let registry of plot.production; index as i;" class="registry-card">
+        <mat-card>
+          <span>Registro #{{ i+1 }}: {{ registry }}</span>
+          <button mat-mini-fab aria-label="Excluir Registro" color="warn" (click)="removePlotRegistry(registry)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="flex-end mt-1">
+    <button mat-flat-button color="accent" (click)="cancelEdition()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="savePlotInfo()">Salvar</button>
   </div>
-
-  <div *ngFor="let registry of plot.production; index as i;" class="registry-card">
-    <mat-card>
-      <span>Registro #{{ i+1 }}: {{ registry }}</span>
-      <button mat-mini-fab aria-label="Excluir Registro" color="warn" (click)="removePlotRegistry(registry)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-card>
-  </div>
-
-  <p>{{ plot | json}}</p>
-
-  <button mat-flat-button (click)="savePlotInfo()">Salvar</button>
 </div>

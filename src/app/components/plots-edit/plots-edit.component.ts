@@ -14,11 +14,11 @@ import { FarmService } from 'src/app/services/farm/farm.service';
 export class PlotsEditComponent implements OnInit, OnDestroy {
 
   public addPlotForm = new FormGroup({
-    plotArea: new FormControl(0.0, [Validators.required]),
+    plotArea: new FormControl(null, [Validators.required, Validators.min(1)]),
   });
 
   public productionRegistryForm = new FormGroup({
-    registry: new FormControl(0, [Validators.required, Validators.min(0)])
+    registry: new FormControl(0, [Validators.min(0)])
   });
 
   public plot: Plot;
@@ -82,14 +82,18 @@ export class PlotsEditComponent implements OnInit, OnDestroy {
   }
 
   public savePlotInfo() {
-    if (this.plot.area) {
+    if (this.addPlotForm.valid && this.plot.area) {
       this.data.farm.plots.push(this.plot);
       this.farmService
         .saveFarm(this.data.farm)
         .subscribe((saved: boolean) => saved ? this.dialogRef.close(this.data.farm) : this.dialogRef.close(null));
     } else {
-      //TODO indicar que há informações faltando
+      this.plotArea?.updateValueAndValidity();
     }
+  }
+
+  public cancelEdition() {
+    this.dialogRef.close(null);
   }
 
 }
