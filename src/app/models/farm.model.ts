@@ -6,6 +6,7 @@ export class Farm {
   public id: string;
   public plotQuantity: number = 0;
   public plots: Plot[] = [];
+  public farmProductivity: number = 0;
 
   constructor(name: string, plotQuantity?: number) {
     this.name = name;
