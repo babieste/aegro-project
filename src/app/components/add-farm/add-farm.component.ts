@@ -12,7 +12,7 @@ export class AddFarmComponent implements OnInit {
 
   public addFarmForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    plotQuantity: new FormControl(0, [Validators.min(0)]) //TODO number only
+    plotQuantity: new FormControl(0, [Validators.min(0)])
   });
 
   constructor(
@@ -27,7 +27,6 @@ export class AddFarmComponent implements OnInit {
   get plotQuantity() { return this.addFarmForm.get('plotQuantity'); }
 
   public add() {
-    //TODO add loading
     if(this.addFarmForm.valid) {
       this.farmService
         .saveNewFarm(this.name?.value, this.plotQuantity?.value)
