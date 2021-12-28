@@ -86,7 +86,7 @@ export class PlotsEditComponent implements OnInit, OnDestroy {
       this.data.farm.plots.push(this.plot);
       this.farmService
         .saveFarm(this.data.farm)
-        .subscribe((saved: boolean) => saved ? this.dialogRef.close(this.data.farm) : this.dialogRef.close(null));
+        .subscribe((saved: boolean) => saved ? this.dialogRef.close({ farm: this.data.farm }) : this.dialogRef.close(null));
     } else {
       this.plotArea?.updateValueAndValidity();
     }
