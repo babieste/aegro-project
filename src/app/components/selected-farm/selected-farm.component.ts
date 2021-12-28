@@ -41,11 +41,14 @@ export class SelectedFarmComponent implements OnInit, OnDestroy {
       width: '500px'
     });
 
-    dialogRef.afterClosed().subscribe((result: { farm: Farm } | null) => {
-      if (result) {
-        this.farmService.selectFarmId = this.selectedFarm?.id as string;
-      }
-    })
+    dialogRef
+      .afterClosed()
+      .subscribe((result: { farm: Farm } | null) => {
+        if (result) {
+          // Atualiza o componente com o resultado da edição
+          this.farmService.selectFarmId = result.farm.id as string;
+        }
+      });
   }
 
 }

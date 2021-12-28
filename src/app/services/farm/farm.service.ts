@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataBaseSchema } from 'src/app/models/db.model';
 import { Farm } from 'src/app/models/farm.model';
-import { Plot } from 'src/app/models/plot.model';
 
 @Injectable({
   providedIn: 'root'
@@ -116,6 +115,18 @@ export class FarmService {
    */
   private saveDb(): void {
     localStorage.setItem('aegro-data', JSON.stringify(this.db));
+  }
+
+  public calculateFarmProductivity(farm: Farm): Farm {
+    if (farm.plotQuantity && farm.plots.length > 0) {
+      let sum = 0;
+      farm.plots.forEach(plot => sum += plot.plotProductivity);
+      farm.farmProductivity = sum/farm.plotQuantity;
+    } else {
+      farm.farmProductivity = 0;
+    }
+
+    return farm;
   }
 
 }
