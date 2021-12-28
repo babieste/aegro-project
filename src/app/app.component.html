@@ -2,16 +2,20 @@
   <span>Aegro Project</span>
 </mat-toolbar>
 
-<mat-grid-list cols="3">
-  <mat-grid-tile>
+<mat-grid-list cols="3" rowHeight="1:2">
+  <mat-grid-tile class="no-gutter">
     <app-add-farm></app-add-farm>
   </mat-grid-tile>
 
   <mat-grid-tile>
-    <app-farms></app-farms>
+    <div class="no-gutter">
+      <app-farms></app-farms>
+    </div>
   </mat-grid-tile>
 
   <mat-grid-tile>
-    <app-selected-farm></app-selected-farm>
+    <div class="no-gutter">
+      <app-selected-farm></app-selected-farm>
+    </div>
   </mat-grid-tile>
 </mat-grid-list>

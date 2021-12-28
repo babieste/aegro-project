@@ -1,8 +1,10 @@
 <div class="d-flex-column">
   <h2 class="mat-title">Minhas Fazendas</h2>
 
-  <div *ngFor="let farm of farms$ | async" class="mb-3">
-    <app-farm [farm]="farm"></app-farm>
+  <div style="max-height: 600px; overflow: auto;">
+    <div *ngFor="let farm of farms$ | async" class="mb-1">
+      <app-farm [farm]="farm"></app-farm>
+    </div>
   </div>
 
   <div *ngIf="(farms$ | async)?.length === 0">
