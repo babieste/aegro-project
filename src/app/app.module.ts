@@ -10,6 +10,7 @@ import { FarmComponent } from './components/farm/farm.component';
 import { AddFarmComponent } from './components/add-farm/add-farm.component';
 import { SelectedFarmComponent } from './components/selected-farm/selected-farm.component';
 import { FarmsComponent } from './components/farms/farms.component';
+import { PlotsEditComponent } from './components/plots-edit/plots-edit.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PlotsEditComponent } from './components/plots-edit/plots-edit.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PlotsEditComponent } from './components/plots-edit/plots-edit.component
     MatGridListModule,
     MatCardModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

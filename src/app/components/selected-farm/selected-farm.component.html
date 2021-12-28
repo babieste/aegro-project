@@ -4,22 +4,45 @@
     <h4 class="mat-small">Fazenda {{ selectedFarm.id }}</h4>
   </div>
 
-  <p class="mat-body">
-    Quantidade de Talhões: {{ selectedFarm.plotQuantity }}
-  </p>
+  <p class="mat-body">Produtividade da Fazenda: {{ selectedFarm.farmProductivity }} t/ha</p>
+
+  <p class="mat-body">Quantidade de Talhões: {{ selectedFarm.plotQuantity }}</p>
 
   <div class="plot-content">
     <div class="plot-title-info">
-      <h3 class="mat-h3">Talhões</h3>
-      <button mat-mini-fab aria-label="Adicionar Talhão" (click)="openPlotEditionDialog()">
+      <div class="title">
+        <h3 class="mat-h3 m-0">Talhões</h3>
+        <span class="mat-caption">{{ selectedFarm.plots.length }}/{{ selectedFarm.plotQuantity }}</span>
+      </div>
+      <button
+        mat-mini-fab
+        aria-label="Adicionar Talhão"
+        (click)="openPlotEditionDialog()"
+        [disabled]="selectedFarm.plots.length === selectedFarm.plotQuantity">
         <mat-icon>add</mat-icon>
       </button>
     </div>
 
-    <div>
-      <p *ngFor="let plot of selectedFarm.plots">
-        {{ plot | json }}
-      </p>
+    <div class="card-content">
+      <div *ngFor="let plot of selectedFarm.plots; index as i" class="plot-card">
+        <mat-card>
+          <mat-card-title>Talhão #{{ i+1 }}</mat-card-title>
+          <p class="mat-body">Área do Talhão: {{ plot.area }} ha</p>
+          <p class="mat-body">Produtividade do Talhão: {{ plot.plotProductivity }} t/ha</p>
+          <p class="mat-body">Registros de Produção:</p>
+
+          <div class="registry-info">
+            <div *ngFor="let registry of plot.production; index as i; last as last">
+              <p class="mat-body">Registro #{{ i+1 }}: {{ registry }} toneladas</p>
+              <hr *ngIf="!last" />
+            </div>
+
+            <div *ngIf="plot.production.length === 0">
+              <p class="mat-body">Não há registros de Produção para este Talhão.</p>
+            </div>
+          </div>
+        </mat-card>
+      </div>
     </div>
     <div *ngIf="selectedFarm.plots.length === 0">
       <p class="mat-body">
